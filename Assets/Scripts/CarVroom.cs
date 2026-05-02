@@ -28,8 +28,8 @@ public class CarVroom : MonoBehaviour, MouseAct
         {
             Vector3 localInput = new Vector3(Hmove * speed, 0f, Vmove * speed);
             Vector3 worldVel = transform.TransformDirection(localInput);
-            worldVel.y = rb.velocity.y; // preserve current world-space vertical velocity
-            rb.velocity = worldVel;
+            worldVel.y = rb.linearVelocity.y; // preserve current world-space vertical velocity
+            rb.linearVelocity = worldVel;
         }
 
         Hmove = Input.GetAxis("Horizontal") * 2;
@@ -37,15 +37,15 @@ public class CarVroom : MonoBehaviour, MouseAct
 
         Debug.Log("Hmove: " + Hmove + " Vmove: " + Vmove);
 
-        if(rb.velocity.magnitude > maxSpeed)
+        if(rb.linearVelocity.magnitude > maxSpeed)
         {
-            rb.velocity = rb.velocity.normalized * maxSpeed;
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
         if(rb.angularVelocity.magnitude > maxTurnSpeed)
         {
             rb.angularVelocity = rb.angularVelocity.normalized * maxTurnSpeed;
         }
-        text.text = rb.velocity.magnitude.ToString("F2") + " MPH";
+        text.text = rb.linearVelocity.magnitude.ToString("F2") + " MPH";
     }
 
     void MouseAct.OnClickAction()
